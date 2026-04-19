@@ -3,7 +3,7 @@ import { TwinComparisonView } from "../components/TwinComparisonView";
 import { TwinFutureView } from "../components/TwinFutureView";
 import { toTwinVisualState } from "../services/twinRenderer";
 import type { SimulationResult, SkinMetrics, SkinScan } from "../types";
-import { formatDateTime } from "../utils/format";
+import { formatDateTime, labelText } from "../utils/format";
 
 type Props = {
   result: SimulationResult | null;
@@ -91,7 +91,7 @@ function emphasizeFutureStep(base: SkinMetrics, target: SkinMetrics, multiplier:
 export function ResultPage({ result, skinScan }: Props) {
   if (!result || !skinScan) {
     return (
-      <div className="page-stack">
+      <div className="page-stack result-page-shell">
         <section className="glass-panel">
           <p className="section-kicker">Simulation Result</p>
           <h2>まだシミュレーションがありません</h2>
@@ -107,7 +107,7 @@ export function ResultPage({ result, skinScan }: Props) {
   const yearOneMetrics = emphasizeFutureStep(afterVisualMetrics, futureVisualMetrics, 0.42);
 
   return (
-    <div className="page-stack">
+    <div className="page-stack result-page-shell">
       <section className="glass-panel">
         <div className="section-head">
           <div>
@@ -116,7 +116,8 @@ export function ResultPage({ result, skinScan }: Props) {
           </div>
           <div className={`score-pill ${result.label}`}>{result.score}</div>
         </div>
-        <p className="lead compact">判定: {result.label} / 実行日時 {formatDateTime(result.createdAt)}</p>
+        <p className="lead compact">判定: {labelText(result.label)} / 実行日時 {formatDateTime(result.createdAt)}</p>
+        <p className="lead compact">{result.summaryReason}</p>
         <div className="stat-grid">
           <div className="stat-card">
             <span>Short term risk</span>

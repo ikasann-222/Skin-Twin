@@ -10,12 +10,13 @@ type Props = {
 
 export function AppShell({ page, onNavigate, children }: Props) {
   const showNav = !["top", "onboarding"].includes(page);
+  const shellClassName = page === "result" ? "app-shell app-shell-wide" : "app-shell";
 
   return (
     <div className="app-bg">
       <div className="ambient ambient-a" />
       <div className="ambient ambient-b" />
-      <main className="app-shell">
+      <main className={shellClassName}>
         {children}
         {showNav ? <BottomNav currentPage={page} onNavigate={onNavigate} /> : null}
       </main>

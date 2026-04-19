@@ -234,6 +234,38 @@ function buildReasons(
   return reasons.slice(0, 4);
 }
 
+function buildSummaryReason(
+  riskScore: number,
+  barrierValue: number,
+  invasionValue: number,
+  contributions: SimulationDebugContribution[],
+) {
+  const topRiskIngredient = contributions.find((item) => !item.protective && item.contribution > 0);
+  const ingredientText = topRiskIngredient ? `${topRiskIngredient.ingredient}などの成分` : "配合成分";
+
+  if (riskScore <= 29) {
+    if (barrierValue < 0.35 && invasionValue < 1.2) {
+      return "バリア状態が比較的安定しており、刺激の強い成分も少ないため、今の肌に合いやすい構成です。";
+    }
+
+    return `${ingredientText}の刺激寄与が低く、全体として今の肌に合いやすい構成です。`;
+  }
+
+  if (riskScore <= 69) {
+    if (barrierValue >= 0.45) {
+      return `バリア機能がやや低下しているため、${ingredientText}が部分的な刺激になる可能性があります。`;
+    }
+
+    return `${ingredientText}の刺激寄与が中程度あるため、肌状態によっては刺激を感じる可能性があります。`;
+  }
+
+  if (barrierValue >= 0.45) {
+    return `バリア機能が低下しているため、${ingredientText}が強い刺激になる可能性があります。`;
+  }
+
+  return `${ingredientText}の刺激寄与が高く、今の肌には負担が大きい可能性があります。`;
+}
+
 function buildAfterMetrics(before: SkinMetrics, product: Product, riskScore: number) {
   const effects = aggregateEffects(product);
   const compatibility = 100 - riskScore;
@@ -306,6 +338,7 @@ export function simulateProduct(profile: UserProfile, scan: SkinScan, product: P
     invasion,
     rawRisk,
   };
+  const summaryReason = buildSummaryReason(riskScore, barrier.value, invasion, debugInfo.ingredientContributions);
 
   if (import.meta.env.DEV) {
     console.log("[SIME]", {
@@ -326,6 +359,7 @@ export function simulateProduct(profile: UserProfile, scan: SkinScan, product: P
     shortTermRisk,
     longTermRisk,
     futureImpactScore,
+    summaryReason,
     reasons: buildReasons(riskScore, profile, offendingIngredient, estimatedPh, cComb, barrier.value, invasion, product),
     beforeMetrics,
     afterMetrics,

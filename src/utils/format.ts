@@ -18,9 +18,9 @@ export function formatDateTime(iso: string) {
 }
 
 export function labelText(label: SimulationLabel) {
-  if (label === "safe") return "safe";
-  if (label === "caution") return "caution";
-  return "critical";
+  if (label === "safe") return "合う：あなたの肌に最適";
+  if (label === "caution") return "注意：部分的な刺激の恐れ";
+  return "合わない：強い刺激の恐れ";
 }
 
 export function barrierText(barrier: BarrierState) {

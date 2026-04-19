@@ -10,6 +10,7 @@ const ZERO_EFFECT: IngredientEffect = {
   brightening: 0,
 };
 
+// 以下は暫定値。将来的にCosIng/SCCSデータで要校正。
 const UNKNOWN_DEFAULT_MW = 600;
 const UNKNOWN_DEFAULT_IRRITATION = 0.1;
 const UNKNOWN_ALERT_IRRITATION = 0.5;
@@ -60,6 +61,7 @@ function buildParsedIngredient(
       confidence,
       molecularWeight: UNKNOWN_DEFAULT_MW,
       irritationPotential: inferUnknownIrritation(raw),
+      source: "Fallback heuristic",
       effect: ZERO_EFFECT,
       tags: [],
     };
@@ -74,6 +76,7 @@ function buildParsedIngredient(
     confidence,
     molecularWeight: matched.molecularWeight,
     irritationPotential: matched.irritationPotential,
+    source: matched.source,
     effect: matched.effect,
     tags: matched.tags,
   };

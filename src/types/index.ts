@@ -55,6 +55,7 @@ export type IngredientMasterItem = {
   aliases: string[];
   molecularWeight: number;
   irritationPotential: number;
+  source?: string;
   effect: IngredientEffect;
   tags: string[];
 };
@@ -68,6 +69,7 @@ export type ParsedIngredient = {
   confidence: "exact" | "alias" | "guessed" | "unknown";
   molecularWeight: number | null;
   irritationPotential: number;
+  source?: string;
   effect: IngredientEffect;
   tags: string[];
 };
@@ -130,6 +132,7 @@ export type SimulationResult = {
   shortTermRisk: number;
   longTermRisk: number;
   futureImpactScore: number;
+  summaryReason: string;
   reasons: string[];
   beforeMetrics: SkinMetrics;
   afterMetrics: SkinMetrics;
