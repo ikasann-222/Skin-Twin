@@ -7,7 +7,7 @@ type Props = {
 };
 
 export function ProfilePage({ initialValue, onSave }: Props) {
-  const [profile, setProfile] = useState<UserProfile>(
+  const baseProfile =
     initialValue ?? {
       name: "",
       ageRange: "20代",
@@ -23,10 +23,21 @@ export function ProfilePage({ initialValue, onSave }: Props) {
       },
       notes: "",
       updatedAt: new Date().toISOString(),
-    },
+    };
+
+  const [profile, setProfile] = useState<UserProfile>(
+    baseProfile,
   );
+  const [sensitivitiesInput, setSensitivitiesInput] = useState(baseProfile.sensitivities.join("、"));
+  const [concernsInput, setConcernsInput] = useState(baseProfile.concerns.join("、"));
 
   function updateArray(field: "sensitivities" | "concerns", value: string) {
+    if (field === "sensitivities") {
+      setSensitivitiesInput(value);
+    } else {
+      setConcernsInput(value);
+    }
+
     setProfile((current) => ({
       ...current,
       [field]: value
@@ -67,7 +78,7 @@ export function ProfilePage({ initialValue, onSave }: Props) {
           <label className="field">
             <span>過去に荒れたことのある成分・要素</span>
             <textarea
-              value={profile.sensitivities.join("、")}
+              value={sensitivitiesInput}
               onChange={(e) => updateArray("sensitivities", e.target.value)}
               placeholder="例: 香料、エタノール、メントール"
             />
@@ -85,7 +96,7 @@ export function ProfilePage({ initialValue, onSave }: Props) {
           <label className="field">
             <span>過去に起きたことのある肌トラブル</span>
             <textarea
-              value={profile.concerns.join("、")}
+              value={concernsInput}
               onChange={(e) => updateArray("concerns", e.target.value)}
               placeholder="例: 赤み、乾燥、ニキビ、ヒリつき"
             />
