@@ -338,7 +338,7 @@ export function simulateProduct(profile: UserProfile, scan: SkinScan, product: P
     invasion,
     rawRisk,
   };
-  const summaryReason = buildSummaryReason(riskScore, barrier.value, invasion, debugInfo.ingredientContributions);
+  const reason = buildSummaryReason(riskScore, barrier.value, invasion, debugInfo.ingredientContributions);
 
   if (import.meta.env.DEV) {
     console.log("[SIME]", {
@@ -359,7 +359,7 @@ export function simulateProduct(profile: UserProfile, scan: SkinScan, product: P
     shortTermRisk,
     longTermRisk,
     futureImpactScore,
-    summaryReason,
+    reason,
     reasons: buildReasons(riskScore, profile, offendingIngredient, estimatedPh, cComb, barrier.value, invasion, product),
     beforeMetrics,
     afterMetrics,

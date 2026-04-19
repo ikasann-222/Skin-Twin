@@ -117,7 +117,7 @@ export function ResultPage({ result, skinScan }: Props) {
           <div className={`score-pill ${result.label}`}>{result.score}</div>
         </div>
         <p className="lead compact">判定: {labelText(result.label)} / 実行日時 {formatDateTime(result.createdAt)}</p>
-        <p className="lead compact">{result.summaryReason}</p>
+        <p className="lead compact">{result.reason}</p>
         <div className="stat-grid">
           <div className="stat-card">
             <span>Short term risk</span>

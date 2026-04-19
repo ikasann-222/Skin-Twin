@@ -132,7 +132,7 @@ export type SimulationResult = {
   shortTermRisk: number;
   longTermRisk: number;
   futureImpactScore: number;
-  summaryReason: string;
+  reason: string;
   reasons: string[];
   beforeMetrics: SkinMetrics;
   afterMetrics: SkinMetrics;
